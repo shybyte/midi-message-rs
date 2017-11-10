@@ -20,12 +20,12 @@ impl MidiMessage {
     pub fn new(status_and_channel: u8, data1: U7, data2: U7) -> Self {
         let status = status_and_channel >> 4;
         let channel = status_and_channel & 0xf;
+
         match status {
             NOTE_OFF => MidiMessage::NoteOff(channel, data1, data2),
             NOTE_ON => MidiMessage::NoteOn(channel, data1, data2),
             _ => MidiMessage::Unknown
-        };
-        MidiMessage::NoteOn(0, data1, data2)
+        }
     }
 }
 
