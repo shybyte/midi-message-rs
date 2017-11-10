@@ -1,11 +1,22 @@
 extern crate midi_message;
 
-use midi_message::raw_midi_message::RawMidiMessage;
+use midi_message::MidiMessage;
 
 #[test]
-fn new_() {
-    let raw_midi_message = RawMidiMessage::new(144, 50, 50);
-    assert_eq!(raw_midi_message.status, 144);
-    assert_eq!(raw_midi_message.data1, 50);
-    assert_eq!(raw_midi_message.data2, 50);
+fn note_on() {
+    assert_eq!(MidiMessage::new(0x90, 24, 100), MidiMessage::NoteOn(0, 24, 100));
+    assert_eq!(MidiMessage::new(0x91, 24, 100), MidiMessage::NoteOn(1, 24, 100));
 }
+
+#[test]
+fn note_off() {
+    assert_eq!(MidiMessage::new(0x80, 24, 100), MidiMessage::NoteOff(0, 24, 100));
+    assert_eq!(MidiMessage::new(0x8f, 24, 100), MidiMessage::NoteOff(0xf, 24, 100));
+}
+
+#[test]
+fn unknown_message() {
+    assert_eq!(MidiMessage::new(0x80, 24, 100), MidiMessage::NoteOff(0, 24, 100));
+    assert_eq!(MidiMessage::new(0xff, 24, 100), MidiMessage::Unknown);
+}
+
