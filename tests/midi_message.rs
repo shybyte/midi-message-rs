@@ -15,8 +15,17 @@ fn note_off() {
 }
 
 #[test]
+fn program_change() {
+    assert_eq!(MidiMessage::new(0xC0, 23, 100), MidiMessage::ProgramChange(0, 23));
+}
+
+#[test]
+fn control_change() {
+    assert_eq!(MidiMessage::new(0xB0, 23, 100), MidiMessage::ControlChange(0, 23, 100));
+}
+
+#[test]
 fn unknown_message() {
-    assert_eq!(MidiMessage::new(0x80, 24, 100), MidiMessage::NoteOff(0, 24, 100));
     assert_eq!(MidiMessage::new(0xff, 24, 100), MidiMessage::Unknown);
 }
 
